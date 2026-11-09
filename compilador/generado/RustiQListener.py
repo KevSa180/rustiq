@@ -107,12 +107,57 @@ class RustiQListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by RustiQParser#tipo.
-    def enterTipo(self, ctx:RustiQParser.TipoContext):
+    # Enter a parse tree produced by RustiQParser#TipoPrim.
+    def enterTipoPrim(self, ctx:RustiQParser.TipoPrimContext):
         pass
 
-    # Exit a parse tree produced by RustiQParser#tipo.
-    def exitTipo(self, ctx:RustiQParser.TipoContext):
+    # Exit a parse tree produced by RustiQParser#TipoPrim.
+    def exitTipoPrim(self, ctx:RustiQParser.TipoPrimContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#TipoString.
+    def enterTipoString(self, ctx:RustiQParser.TipoStringContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#TipoString.
+    def exitTipoString(self, ctx:RustiQParser.TipoStringContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#TipoArr.
+    def enterTipoArr(self, ctx:RustiQParser.TipoArrContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#TipoArr.
+    def exitTipoArr(self, ctx:RustiQParser.TipoArrContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#TipoTup.
+    def enterTipoTup(self, ctx:RustiQParser.TipoTupContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#TipoTup.
+    def exitTipoTup(self, ctx:RustiQParser.TipoTupContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#TipoRef.
+    def enterTipoRef(self, ctx:RustiQParser.TipoRefContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#TipoRef.
+    def exitTipoRef(self, ctx:RustiQParser.TipoRefContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#TipoNombre.
+    def enterTipoNombre(self, ctx:RustiQParser.TipoNombreContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#TipoNombre.
+    def exitTipoNombre(self, ctx:RustiQParser.TipoNombreContext):
         pass
 
 
@@ -332,12 +377,57 @@ class RustiQListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by RustiQParser#unario.
-    def enterUnario(self, ctx:RustiQParser.UnarioContext):
+    # Enter a parse tree produced by RustiQParser#UnarioNegativo.
+    def enterUnarioNegativo(self, ctx:RustiQParser.UnarioNegativoContext):
         pass
 
-    # Exit a parse tree produced by RustiQParser#unario.
-    def exitUnario(self, ctx:RustiQParser.UnarioContext):
+    # Exit a parse tree produced by RustiQParser#UnarioNegativo.
+    def exitUnarioNegativo(self, ctx:RustiQParser.UnarioNegativoContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#UnarioNegacion.
+    def enterUnarioNegacion(self, ctx:RustiQParser.UnarioNegacionContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#UnarioNegacion.
+    def exitUnarioNegacion(self, ctx:RustiQParser.UnarioNegacionContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#UnarioRefMut.
+    def enterUnarioRefMut(self, ctx:RustiQParser.UnarioRefMutContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#UnarioRefMut.
+    def exitUnarioRefMut(self, ctx:RustiQParser.UnarioRefMutContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#UnarioRef.
+    def enterUnarioRef(self, ctx:RustiQParser.UnarioRefContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#UnarioRef.
+    def exitUnarioRef(self, ctx:RustiQParser.UnarioRefContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#UnarioDeref.
+    def enterUnarioDeref(self, ctx:RustiQParser.UnarioDerefContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#UnarioDeref.
+    def exitUnarioDeref(self, ctx:RustiQParser.UnarioDerefContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#UnarioPostfijo.
+    def enterUnarioPostfijo(self, ctx:RustiQParser.UnarioPostfijoContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#UnarioPostfijo.
+    def exitUnarioPostfijo(self, ctx:RustiQParser.UnarioPostfijoContext):
         pass
 
 
@@ -386,12 +476,84 @@ class RustiQListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by RustiQParser#primario.
-    def enterPrimario(self, ctx:RustiQParser.PrimarioContext):
+    # Enter a parse tree produced by RustiQParser#PrimLiteral.
+    def enterPrimLiteral(self, ctx:RustiQParser.PrimLiteralContext):
         pass
 
-    # Exit a parse tree produced by RustiQParser#primario.
-    def exitPrimario(self, ctx:RustiQParser.PrimarioContext):
+    # Exit a parse tree produced by RustiQParser#PrimLiteral.
+    def exitPrimLiteral(self, ctx:RustiQParser.PrimLiteralContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PrimIdent.
+    def enterPrimIdent(self, ctx:RustiQParser.PrimIdentContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PrimIdent.
+    def exitPrimIdent(self, ctx:RustiQParser.PrimIdentContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PrimTupla.
+    def enterPrimTupla(self, ctx:RustiQParser.PrimTuplaContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PrimTupla.
+    def exitPrimTupla(self, ctx:RustiQParser.PrimTuplaContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PrimArray.
+    def enterPrimArray(self, ctx:RustiQParser.PrimArrayContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PrimArray.
+    def exitPrimArray(self, ctx:RustiQParser.PrimArrayContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PrimStruct.
+    def enterPrimStruct(self, ctx:RustiQParser.PrimStructContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PrimStruct.
+    def exitPrimStruct(self, ctx:RustiQParser.PrimStructContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PrimEnum.
+    def enterPrimEnum(self, ctx:RustiQParser.PrimEnumContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PrimEnum.
+    def exitPrimEnum(self, ctx:RustiQParser.PrimEnumContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PrimMatch.
+    def enterPrimMatch(self, ctx:RustiQParser.PrimMatchContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PrimMatch.
+    def exitPrimMatch(self, ctx:RustiQParser.PrimMatchContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PrimParen.
+    def enterPrimParen(self, ctx:RustiQParser.PrimParenContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PrimParen.
+    def exitPrimParen(self, ctx:RustiQParser.PrimParenContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PrimBloque.
+    def enterPrimBloque(self, ctx:RustiQParser.PrimBloqueContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PrimBloque.
+    def exitPrimBloque(self, ctx:RustiQParser.PrimBloqueContext):
         pass
 
 
@@ -440,12 +602,48 @@ class RustiQListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by RustiQParser#literal.
-    def enterLiteral(self, ctx:RustiQParser.LiteralContext):
+    # Enter a parse tree produced by RustiQParser#LitEntero.
+    def enterLitEntero(self, ctx:RustiQParser.LitEnteroContext):
         pass
 
-    # Exit a parse tree produced by RustiQParser#literal.
-    def exitLiteral(self, ctx:RustiQParser.LiteralContext):
+    # Exit a parse tree produced by RustiQParser#LitEntero.
+    def exitLitEntero(self, ctx:RustiQParser.LitEnteroContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#LitFlotante.
+    def enterLitFlotante(self, ctx:RustiQParser.LitFlotanteContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#LitFlotante.
+    def exitLitFlotante(self, ctx:RustiQParser.LitFlotanteContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#LitBooleano.
+    def enterLitBooleano(self, ctx:RustiQParser.LitBooleanoContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#LitBooleano.
+    def exitLitBooleano(self, ctx:RustiQParser.LitBooleanoContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#LitChar.
+    def enterLitChar(self, ctx:RustiQParser.LitCharContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#LitChar.
+    def exitLitChar(self, ctx:RustiQParser.LitCharContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#LitTexto.
+    def enterLitTexto(self, ctx:RustiQParser.LitTextoContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#LitTexto.
+    def exitLitTexto(self, ctx:RustiQParser.LitTextoContext):
         pass
 
 
@@ -467,12 +665,48 @@ class RustiQListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by RustiQParser#patron.
-    def enterPatron(self, ctx:RustiQParser.PatronContext):
+    # Enter a parse tree produced by RustiQParser#PatComodin.
+    def enterPatComodin(self, ctx:RustiQParser.PatComodinContext):
         pass
 
-    # Exit a parse tree produced by RustiQParser#patron.
-    def exitPatron(self, ctx:RustiQParser.PatronContext):
+    # Exit a parse tree produced by RustiQParser#PatComodin.
+    def exitPatComodin(self, ctx:RustiQParser.PatComodinContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PatLiteral.
+    def enterPatLiteral(self, ctx:RustiQParser.PatLiteralContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PatLiteral.
+    def exitPatLiteral(self, ctx:RustiQParser.PatLiteralContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PatIdent.
+    def enterPatIdent(self, ctx:RustiQParser.PatIdentContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PatIdent.
+    def exitPatIdent(self, ctx:RustiQParser.PatIdentContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PatVariante.
+    def enterPatVariante(self, ctx:RustiQParser.PatVarianteContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PatVariante.
+    def exitPatVariante(self, ctx:RustiQParser.PatVarianteContext):
+        pass
+
+
+    # Enter a parse tree produced by RustiQParser#PatTupla.
+    def enterPatTupla(self, ctx:RustiQParser.PatTuplaContext):
+        pass
+
+    # Exit a parse tree produced by RustiQParser#PatTupla.
+    def exitPatTupla(self, ctx:RustiQParser.PatTuplaContext):
         pass
 
 

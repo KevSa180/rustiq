@@ -64,8 +64,33 @@ class RustiQVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by RustiQParser#tipo.
-    def visitTipo(self, ctx:RustiQParser.TipoContext):
+    # Visit a parse tree produced by RustiQParser#TipoPrim.
+    def visitTipoPrim(self, ctx:RustiQParser.TipoPrimContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#TipoString.
+    def visitTipoString(self, ctx:RustiQParser.TipoStringContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#TipoArr.
+    def visitTipoArr(self, ctx:RustiQParser.TipoArrContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#TipoTup.
+    def visitTipoTup(self, ctx:RustiQParser.TipoTupContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#TipoRef.
+    def visitTipoRef(self, ctx:RustiQParser.TipoRefContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#TipoNombre.
+    def visitTipoNombre(self, ctx:RustiQParser.TipoNombreContext):
         return self.visitChildren(ctx)
 
 
@@ -189,8 +214,33 @@ class RustiQVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by RustiQParser#unario.
-    def visitUnario(self, ctx:RustiQParser.UnarioContext):
+    # Visit a parse tree produced by RustiQParser#UnarioNegativo.
+    def visitUnarioNegativo(self, ctx:RustiQParser.UnarioNegativoContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#UnarioNegacion.
+    def visitUnarioNegacion(self, ctx:RustiQParser.UnarioNegacionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#UnarioRefMut.
+    def visitUnarioRefMut(self, ctx:RustiQParser.UnarioRefMutContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#UnarioRef.
+    def visitUnarioRef(self, ctx:RustiQParser.UnarioRefContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#UnarioDeref.
+    def visitUnarioDeref(self, ctx:RustiQParser.UnarioDerefContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#UnarioPostfijo.
+    def visitUnarioPostfijo(self, ctx:RustiQParser.UnarioPostfijoContext):
         return self.visitChildren(ctx)
 
 
@@ -219,8 +269,48 @@ class RustiQVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by RustiQParser#primario.
-    def visitPrimario(self, ctx:RustiQParser.PrimarioContext):
+    # Visit a parse tree produced by RustiQParser#PrimLiteral.
+    def visitPrimLiteral(self, ctx:RustiQParser.PrimLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PrimIdent.
+    def visitPrimIdent(self, ctx:RustiQParser.PrimIdentContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PrimTupla.
+    def visitPrimTupla(self, ctx:RustiQParser.PrimTuplaContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PrimArray.
+    def visitPrimArray(self, ctx:RustiQParser.PrimArrayContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PrimStruct.
+    def visitPrimStruct(self, ctx:RustiQParser.PrimStructContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PrimEnum.
+    def visitPrimEnum(self, ctx:RustiQParser.PrimEnumContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PrimMatch.
+    def visitPrimMatch(self, ctx:RustiQParser.PrimMatchContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PrimParen.
+    def visitPrimParen(self, ctx:RustiQParser.PrimParenContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PrimBloque.
+    def visitPrimBloque(self, ctx:RustiQParser.PrimBloqueContext):
         return self.visitChildren(ctx)
 
 
@@ -249,8 +339,28 @@ class RustiQVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by RustiQParser#literal.
-    def visitLiteral(self, ctx:RustiQParser.LiteralContext):
+    # Visit a parse tree produced by RustiQParser#LitEntero.
+    def visitLitEntero(self, ctx:RustiQParser.LitEnteroContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#LitFlotante.
+    def visitLitFlotante(self, ctx:RustiQParser.LitFlotanteContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#LitBooleano.
+    def visitLitBooleano(self, ctx:RustiQParser.LitBooleanoContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#LitChar.
+    def visitLitChar(self, ctx:RustiQParser.LitCharContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#LitTexto.
+    def visitLitTexto(self, ctx:RustiQParser.LitTextoContext):
         return self.visitChildren(ctx)
 
 
@@ -264,8 +374,28 @@ class RustiQVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by RustiQParser#patron.
-    def visitPatron(self, ctx:RustiQParser.PatronContext):
+    # Visit a parse tree produced by RustiQParser#PatComodin.
+    def visitPatComodin(self, ctx:RustiQParser.PatComodinContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PatLiteral.
+    def visitPatLiteral(self, ctx:RustiQParser.PatLiteralContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PatIdent.
+    def visitPatIdent(self, ctx:RustiQParser.PatIdentContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PatVariante.
+    def visitPatVariante(self, ctx:RustiQParser.PatVarianteContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by RustiQParser#PatTupla.
+    def visitPatTupla(self, ctx:RustiQParser.PatTuplaContext):
         return self.visitChildren(ctx)
 
 

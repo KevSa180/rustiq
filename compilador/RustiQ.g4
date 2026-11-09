@@ -29,12 +29,12 @@ listaTipos : tipo (COMMA tipo)* COMMA? ;
 //  PARTE 2: TIPOS
 // =====================================================
 
-tipo : tipoPrimitivo
-     | STRING_T
-     | tipoArray
-     | tipoTupla
-     | tipoReferencia
-     | ID
+tipo : tipoPrimitivo   # TipoPrim
+     | STRING_T        # TipoString
+     | tipoArray       # TipoArr
+     | tipoTupla       # TipoTup
+     | tipoReferencia  # TipoRef
+     | ID              # TipoNombre
      ;
 
 tipoPrimitivo  : I32 | F64 | BOOL | CHAR_T ;
@@ -86,8 +86,12 @@ comparacion    : suma (opRelacional suma)? ;
 opRelacional   : EQEQ | NEQ | LT | LE | GT | GE ;
 suma           : producto ((PLUS | MINUS) producto)* ;
 producto       : unario ((STAR | SLASH | PERCENT) unario)* ;
-unario         : (MINUS | NOT | AMP MUT? | STAR) unario
-               | postfijo
+unario         : MINUS unario      # UnarioNegativo
+               | NOT unario        # UnarioNegacion
+               | AMP MUT unario    # UnarioRefMut
+               | AMP unario        # UnarioRef
+               | STAR unario       # UnarioDeref
+               | postfijo          # UnarioPostfijo
                ;
 postfijo       : primario (sufijoLlamada | sufijoCampo | sufijoIndice)* ;
 
@@ -96,15 +100,15 @@ listaArgumentos: expresion (COMMA expresion)* COMMA? ;
 sufijoCampo    : DOT ID ;
 sufijoIndice   : LBRACK expresion RBRACK ;
 
-primario : literal
-         | ID
-         | literalTupla
-         | literalArray
-         | literalStruct
-         | valorEnum
-         | expresionMatch
-         | LPAREN expresion RPAREN
-         | bloque
+primario : literal                  # PrimLiteral
+         | ID                       # PrimIdent
+         | literalTupla             # PrimTupla
+         | literalArray             # PrimArray
+         | literalStruct            # PrimStruct
+         | valorEnum                # PrimEnum
+         | expresionMatch           # PrimMatch
+         | LPAREN expresion RPAREN  # PrimParen
+         | bloque                   # PrimBloque
          ;
 
 literalTupla  : LPAREN expresion COMMA expresion (COMMA expresion)* COMMA? RPAREN ;
@@ -113,7 +117,12 @@ literalStruct : ID LBRACE (inicCampo (COMMA inicCampo)* COMMA?)? RBRACE ;
 inicCampo     : ID COLON expresion ;
 valorEnum     : ID COLONCOL ID (LPAREN listaArgumentos RPAREN)? ;
 
-literal : INT_LIT | FLOAT_LIT | TRUE | FALSE | CHAR_LIT | STRING_LIT ;
+literal : INT_LIT          # LitEntero
+        | FLOAT_LIT        # LitFlotante
+        | (TRUE | FALSE)   # LitBooleano
+        | CHAR_LIT         # LitChar
+        | STRING_LIT       # LitTexto
+        ;
 
 // =====================================================
 //  PARTE 5: MATCH Y PATRONES
@@ -122,11 +131,11 @@ literal : INT_LIT | FLOAT_LIT | TRUE | FALSE | CHAR_LIT | STRING_LIT ;
 expresionMatch : MATCH expresion LBRACE brazoMatch (COMMA brazoMatch)* COMMA? RBRACE ;
 brazoMatch     : patron FATARROW expresion ;
 
-patron : UNDERSCORE
-       | literal
-       | ID
-       | ID COLONCOL ID (LPAREN listaPatrones RPAREN)?
-       | LPAREN patron COMMA patron (COMMA patron)* COMMA? RPAREN
+patron : UNDERSCORE                                               # PatComodin
+       | literal                                                  # PatLiteral
+       | ID                                                       # PatIdent
+       | ID COLONCOL ID (LPAREN listaPatrones RPAREN)?            # PatVariante
+       | LPAREN patron COMMA patron (COMMA patron)* COMMA? RPAREN # PatTupla
        ;
 listaPatrones : patron (COMMA patron)* COMMA? ;
 

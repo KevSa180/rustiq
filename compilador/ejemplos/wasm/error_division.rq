@@ -1,0 +1,5 @@
+// Debe compilar bien y fallar AL EJECUTAR: división entera por cero
+fn main() {
+    let cero = 0;
+    print_i32(10 / cero);
+}

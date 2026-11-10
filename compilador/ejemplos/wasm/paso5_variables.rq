@@ -1,0 +1,23 @@
+// Paso 5: let, variables, asignación y sombreado
+// Salida esperada:
+// 10
+// 16
+// 2.5
+// 10
+// 100
+const BASE: i32 = 100;
+
+fn main() {
+    let mut x = 10;
+    print_i32(x);
+    x += 5;
+    x = x + 1;
+    print_i32(x);
+    let y: i32 = 10;
+    {
+        let y = 2.5;
+        print_f64(y);
+    }
+    print_i32(y);
+    print_i32(BASE);
+}

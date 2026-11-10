@@ -1,0 +1,22 @@
+// Paso 4: operadores aritméticos, comparaciones y unarios
+// Salida esperada:
+// 14
+// 2
+// -7
+// 5.0
+// 1.5
+// true
+// false
+// true
+// true
+fn main() {
+    print_i32(2 + 3 * 4);
+    print_i32(17 % 5);
+    print_i32(-7);
+    print_f64(2.5 * 2.0);
+    print_f64(7.5 % 2.0);
+    print_bool(3 < 5);
+    print_bool(!(10 >= 2));
+    print_bool(1 == 1 && 2 != 3);
+    print_bool(false || 'a' < 'b');
+}

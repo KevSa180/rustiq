@@ -1,0 +1,43 @@
+// Paso 6: if, while, loop, break, continue y return
+// Salida esperada:
+// 9
+// 120
+// 1
+// 2
+// 4
+// 5
+// true
+fn maximo(a: i32, b: i32) -> i32 {
+    if a > b { a } else { b }
+}
+
+fn factorial(n: i32) -> i32 {
+    let mut r = 1;
+    let mut i = 1;
+    while i <= n {
+        r *= i;
+        i += 1;
+    }
+    r
+}
+
+fn es_par(n: i32) -> bool {
+    return n % 2 == 0;
+}
+
+fn main() {
+    print_i32(maximo(3, 9));
+    print_i32(factorial(5));
+    let mut c = 0;
+    loop {
+        c += 1;
+        if c == 3 { continue; }
+        if c > 5 { break; }
+        print_i32(c);
+    }
+    if es_par(4) {
+        print_bool(true);
+    } else {
+        print_bool(false);
+    }
+}

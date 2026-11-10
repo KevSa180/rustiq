@@ -1,0 +1,24 @@
+// Paso 10: String, escapes, referencias y deref
+// Salida esperada:
+// Hola, RustiQ
+// línea 1	tab
+// 42
+// 3.5
+fn saludar(nombre: &String) {
+    print_str(nombre);
+}
+
+fn leer(r: &i32) -> i32 {
+    *r
+}
+
+fn main() {
+    let s = "Hola, RustiQ";
+    saludar(&s);
+    print_str("línea 1\ttab");
+    let n = 42;
+    print_i32(leer(&n));
+    let f = 3.5;
+    let rf = &f;
+    print_f64(*rf);
+}

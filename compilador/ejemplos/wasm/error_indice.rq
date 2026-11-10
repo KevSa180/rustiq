@@ -1,0 +1,6 @@
+// Debe compilar bien y fallar AL EJECUTAR: índice fuera de rango
+fn main() {
+    let a: [i32; 3] = [1, 2, 3];
+    let i = 5;
+    print_i32(a[i]);
+}

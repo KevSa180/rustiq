@@ -8,8 +8,16 @@ class ErrorWasm(Exception):
 TRAPS = {
     "integer divide by zero": "División entera por cero",
     "out of bounds memory access": "Acceso fuera de la memoria",
-    "unreachable": "Se llegó a código inalcanzable",
+    # El generador emite 'unreachable' cuando un índice de array se sale del rango.
+    "wasm `unreachable` instruction executed": "Índice de array fuera de rango",
 }
+
+
+def leer_string(caller, puntero):
+    """Un String en memoria es [ largo (4 bytes) ][ bytes UTF-8 ] (ver memoria.py)."""
+    memoria = caller["memory"]
+    largo = int.from_bytes(memoria.read(caller, puntero, puntero + 4), "little")
+    return memoria.read(caller, puntero + 4, puntero + 4 + largo).decode("utf-8")
 
 
 def wat_a_wasm(texto_wat):
@@ -50,6 +58,9 @@ def ejecutar(bytes_wasm):
                        lambda v: salida.append("true" if v else "false"))
     linker.define_func("env", "print_char", wasmtime.FuncType([i32], []),
                        lambda v: salida.append(chr(v)))
+    linker.define_func("env", "print_str", wasmtime.FuncType([i32], []),
+                       lambda caller, p: salida.append(leer_string(caller, p)),
+                       access_caller=True)
 
     instancia = linker.instantiate(store, modulo)
     main = instancia.exports(store)["main"]

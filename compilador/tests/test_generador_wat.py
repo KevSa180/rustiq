@@ -65,13 +65,51 @@ class PruebasEjemplos(unittest.TestCase):
         self.assertIn("División entera por cero", str(e.exception))
 
 
-class PruebasNoSoportado(unittest.TestCase):
-    def test_string_se_reporta_con_linea_y_columna(self):
+    def test_indice_fuera_de_rango_falla_al_ejecutar(self):
+        with open(os.path.join(EJEMPLOS, "error_indice.rq"), encoding="utf-8") as f:
+            codigo = f.read()
+        with self.assertRaises(ErrorWasm) as e:
+            compilar_y_ejecutar(codigo)
+        self.assertIn("Índice de array fuera de rango", str(e.exception))
+
+
+class PruebasMemoria(unittest.TestCase):
+    def test_copiar_array_no_cambia_el_original(self):
+        codigo = """
+        fn main() {
+            let a: [i32; 2] = [1, 2];
+            let mut b = a;
+            b[0] = 50;
+            print_i32(a[0]);
+            print_i32(b[0]);
+        }"""
+        self.assertEqual(compilar_y_ejecutar(codigo), ["1", "50"])
+
+    def test_mut_referencia_modifica_el_original(self):
+        codigo = """
+        struct C { n: i32 }
+        fn sumar(c: &mut C) { c.n += 1; }
+        fn main() {
+            let mut c = C { n: 1 };
+            sumar(&mut c);
+            sumar(&mut c);
+            print_i32(c.n);
+        }"""
+        self.assertEqual(compilar_y_ejecutar(codigo), ["3"])
+
+    def test_texto_repetido_se_guarda_una_vez(self):
         errores = ListaErrores()
-        wat = compilar_a_wat('fn main() {\n    let s = "hola";\n}', errores)
+        wat = compilar_a_wat('fn main() { print_str("a"); print_str("a"); }', errores)
+        self.assertEqual(wat.count("(data "), 1)
+
+
+class PruebasNoSoportado(unittest.TestCase):
+    def test_no_soportado_se_reporta_con_linea_y_columna(self):
+        errores = ListaErrores()
+        wat = compilar_a_wat("fn f() -> i32 { 1 }\nfn main() {\n    let x = (f)();\n}", errores)
         self.assertIsNone(wat)
         e = errores.ordenados()[0]
-        self.assertEqual((e.fase, e.linea, e.columna), ("generación", 2, 13))
+        self.assertEqual((e.fase, e.linea, e.columna), ("generación", 3, 13))
 
     def test_error_sintactico_no_genera_wat(self):
         errores = ListaErrores()

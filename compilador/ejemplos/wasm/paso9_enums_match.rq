@@ -1,0 +1,38 @@
+// Paso 9: enums con datos y match
+// Salida esperada:
+// 0
+// 200
+// -1
+// cero
+// otro
+// grande
+enum Estado {
+    Pendiente,
+    Completado(i32),
+    Error(String),
+}
+
+fn describir(estado: Estado) -> i32 {
+    match estado {
+        Estado::Pendiente => 0,
+        Estado::Completado(codigo) => codigo,
+        Estado::Error(_) => -1,
+    }
+}
+
+fn clasificar(n: i32) {
+    match n {
+        0 => print_str("cero"),
+        100 => print_str("grande"),
+        _ => print_str("otro"),
+    }
+}
+
+fn main() {
+    print_i32(describir(Estado::Pendiente));
+    print_i32(describir(Estado::Completado(200)));
+    print_i32(describir(Estado::Error("falló")));
+    clasificar(0);
+    clasificar(5);
+    clasificar(100);
+}

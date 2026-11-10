@@ -1,0 +1,32 @@
+// Paso 8: arrays, índices, copia de arrays y tuplas
+// Salida esperada:
+// 60
+// 99
+// 10
+// 3
+// 2.5
+fn suma(a: [i32; 3]) -> i32 {
+    let mut total = 0;
+    let mut i = 0;
+    while i < 3 {
+        total += a[i];
+        i += 1;
+    }
+    total
+}
+
+fn main() {
+    let muestras: [i32; 3] = [10, 20, 30];
+    print_i32(suma(muestras));
+    let mut copia = muestras;
+    copia[0] = 99;
+    print_i32(copia[0]);
+    print_i32(muestras[0]);
+    let par: (i32, f64) = (3, 2.5);
+    match par {
+        (n, f) => {
+            print_i32(n);
+            print_f64(f);
+        }
+    }
+}

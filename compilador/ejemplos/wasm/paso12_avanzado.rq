@@ -1,0 +1,77 @@
+// Paso 12: casos combinados (arrays anidados, structs en arrays, match anidado)
+// Salida esperada:
+// 1
+// 9
+// 5.0
+// 12
+// -3
+// 2
+// 500000
+// 0
+enum Forma {
+    Circulo(f64),
+    Rect(i32, i32),
+    Nada,
+}
+
+enum Resultado {
+    Ok(Forma),
+    Falla,
+}
+
+struct Item {
+    pesos: [i32; 2],
+    activo: bool,
+}
+
+fn area(f: &Forma) -> i32 {
+    match f {
+        Forma::Rect(a, b) => a * b,
+        Forma::Circulo(_) => -3,
+        Forma::Nada => 0,
+    }
+}
+
+fn signo(n: i32) -> i32 {
+    if n > 0 { 1 } else if n < 0 { -1 } else { 0 }
+}
+
+fn main() {
+    let m: [[i32; 2]; 2] = [[1, 2], [3, 4]];
+    let mut otra = m;
+    otra[0][0] = 9;
+    print_i32(m[0][0]);
+    print_i32(otra[0][0]);
+
+    let items: [Item; 2] = [
+        Item { pesos: [1, 2], activo: false },
+        Item { pesos: [5, 6], activo: true },
+    ];
+    if items[1].activo {
+        print_f64(5.0);
+    }
+
+    let r = Resultado::Ok(Forma::Rect(3, 4));
+    let valor = match r {
+        Resultado::Ok(Forma::Rect(a, b)) => a * b,
+        Resultado::Ok(_) => 0,
+        Resultado::Falla => -1,
+    };
+    print_i32(valor);
+    let c = Forma::Circulo(1.5);
+    print_i32(area(&c));
+    print_i32(items[0].pesos[1]);
+
+    // Muchas reservas: obliga a que la memoria crezca
+    let mut total = 0;
+    let mut i = 0;
+    while i < 100000 {
+        let t = (i, 5);
+        match t {
+            (_, k) => { total += k; }
+        };
+        i += 1;
+    }
+    print_i32(total);
+    print_i32(signo(-4) * 0);
+}

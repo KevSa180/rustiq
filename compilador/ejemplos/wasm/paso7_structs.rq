@@ -1,0 +1,30 @@
+// Paso 7: structs, campos y &mut a través de funciones
+// Salida esperada:
+// 1.0
+// 4.0
+// 2.5
+// 7
+struct Punto {
+    x: f64,
+    y: f64,
+}
+
+struct Caja {
+    esquina: Punto,
+    id: i32,
+}
+
+fn mover_x(p: &mut Punto, dx: f64) {
+    p.x = p.x + dx;
+}
+
+fn main() {
+    let mut p = Punto { x: 1.0, y: 2.0 };
+    print_f64(p.x);
+    mover_x(&mut p, 3.0);
+    print_f64(p.x);
+    let mut c = Caja { id: 7, esquina: Punto { x: 0.5, y: 0.0 } };
+    c.esquina.x += 2.0;
+    print_f64(c.esquina.x);
+    print_i32(c.id);
+}

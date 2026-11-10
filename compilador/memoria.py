@@ -1,5 +1,6 @@
 """
-Representación en memoria de los valores de RustiQ dentro de Wasm.
+[DEFENSA] Representación en memoria de los valores de RustiQ dentro de Wasm.
+El enunciado pide definir y documentar este diseño; este archivo es esa respuesta.
 
 Wasm solo tiene números (i32, f64) y una memoria lineal: un gran arreglo de
 bytes. Las decisiones de este archivo son:
@@ -37,23 +38,32 @@ bytes. Las decisiones de este archivo son:
 """
 import tipos as T
 
-SLOT = 8
+SLOT = 8                  # bytes por campo/elemento: cabe un f64 o un i32
 INICIO_DATOS = 8          # la dirección 0 se deja libre (como un "null")
 
 
 def es_compuesto(tipo):
+    """¿Vive en memoria (y en la pila viaja su puntero)?"""
     return isinstance(tipo, (T.TipoStruct, T.TipoEnum, T.TipoArray, T.TipoTupla)) \
         or tipo == T.STRING
 
 
 def sin_referencia(tipo):
+    """&Punto -> Punto. Permite que p.x funcione igual si p es un Punto o un &Punto."""
     while isinstance(tipo, T.TipoReferencia):
         tipo = tipo.interno
     return tipo
 
 
 def tipo_wasm(tipo):
-    """Tipo de RustiQ -> tipo de Wasm. None si no ocupa valor (unit)."""
+    """
+    [DEFENSA] Tipo de RustiQ -> tipo de Wasm (Wasm solo conoce números).
+        f64                                    -> f64
+        i32, bool, char                        -> i32
+        struct, enum, array, tupla, String     -> i32 (un puntero)
+        &T                                     -> lo mismo que T
+        ()                                     -> None (no deja valor)
+    """
     tipo = sin_referencia(tipo)
     if tipo == T.UNIT:
         return None
@@ -63,10 +73,12 @@ def tipo_wasm(tipo):
 
 
 def cargar(tipo):
+    """Instrucción para LEER un slot de memoria de ese tipo."""
     return "f64.load" if tipo_wasm(tipo) == "f64" else "i32.load"
 
 
 def guardar(tipo):
+    """Instrucción para ESCRIBIR un slot de memoria de ese tipo."""
     return "f64.store" if tipo_wasm(tipo) == "f64" else "i32.store"
 
 
@@ -83,18 +95,22 @@ def tipos_de_slots(tipo):
 
 
 def tamano_bloque(tipo):
+    """Bytes que ocupa el bloque de un array o tupla: [i32; 3] -> 24."""
     return len(tipos_de_slots(tipo)) * SLOT
 
 
 def offset_slot(indice):
+    """El elemento i está i * 8 bytes después del inicio del bloque."""
     return indice * SLOT
 
 
 def offset_campo(simbolo_struct, campo):
+    """Punto { x, y }: x en offset 0, y en offset 8 (orden de la declaración)."""
     return list(simbolo_struct.campos).index(campo) * SLOT
 
 
 def tag_de_variante(simbolo_enum, variante):
+    """Número de la variante según su orden: Pendiente=0, Completado=1, Error=2."""
     return simbolo_enum.nombres_variantes().index(variante)
 
 
@@ -108,8 +124,11 @@ def bytes_wat(texto_bytes):
     return "".join(f"\\{b:02x}" for b in texto_bytes)
 
 
-# Asignador: devuelve el puntero actual y lo avanza n bytes (múltiplo de 8).
-# Si se pasa del tamaño de la memoria, la hace crecer.
+# [DEFENSA] Asignador de memoria ("bump allocator"):
+#   - $__heap apunta a la primera dirección libre.
+#   - $__alloc(n) devuelve esa dirección y avanza $__heap n bytes (redondeado a 8).
+#   - Si se pasa del tamaño actual, pide más con memory.grow (páginas de 64 KB).
+#   - Nunca libera memoria: es simple y alcanza para programas de prueba.
 FUNCION_ALLOC = """  (func $__alloc (param $n i32) (result i32)
     (local $p i32)
     global.get $__heap

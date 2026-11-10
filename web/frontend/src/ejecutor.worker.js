@@ -4,10 +4,12 @@
 // Es el equivalente en el navegador de compilador/ejecutor_wasm.py: le presta
 // al módulo las mismas funciones print_* y lee los String desde su memoria.
 
+// Misma regla que formatear_f64 en Python: 4.0 se muestra como "4.0".
 function formatearF64(v) {
   return Number.isInteger(v) ? v.toFixed(1) : String(v);
 }
 
+// Traduce los "traps" (errores en ejecución) del navegador al español.
 function traducirError(e) {
   const m = String(e && e.message ? e.message : e);
   if (/divide by zero|division by zero/i.test(m)) return "División entera por cero";
@@ -26,11 +28,13 @@ self.onmessage = async ({ data }) => {
       pendientes = [];
     }
   };
+  // La salida se manda en grupos de 200 líneas para no saturar la página.
   const imprimir = (texto) => {
     pendientes.push(texto);
     if (pendientes.length >= 200) enviar();
   };
 
+  // [DEFENSA] Las funciones que el módulo importa ("env"): igual que en ejecutor_wasm.py.
   const env = {
     print_i32: (v) => imprimir(String(v)),
     print_f64: (v) => imprimir(formatearF64(v)),
@@ -44,6 +48,7 @@ self.onmessage = async ({ data }) => {
   };
 
   try {
+    // [DEFENSA] API WebAssembly del navegador: carga el .wasm recién compilado y llama a main.
     const { instance } = await WebAssembly.instantiate(data.bytes, { env });
     memoria = instance.exports.memory;
     const inicio = performance.now();

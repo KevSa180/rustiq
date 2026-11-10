@@ -17,6 +17,13 @@ from ejecutor_wasm import wat_a_wasm, validar, ejecutar, ErrorWasm
 
 
 def compilar_a_wat(codigo, errores):
+    """
+    [DEFENSA] La cadena del compilador. Cada fase se ejecuta solo si la anterior
+    no dejó errores: un programa con errores NUNCA produce un .wasm.
+    Devuelve el texto WAT, o None si hubo errores (quedan en 'errores').
+    También lo usa el servidor web (web/server.py).
+    """
+    # Fase 1: léxico y sintaxis con ANTLR (los errores van a 'errores', no a la consola)
     lexer = RustiQLexer(InputStream(codigo))
     lexer.removeErrorListeners()
     lexer.addErrorListener(ColectorErrores("léxico", errores))
@@ -27,6 +34,7 @@ def compilar_a_wat(codigo, errores):
     if errores.hay_errores():
         return None
     # Aquí irán el recolector, el verificador de tipos y el de ownership.
+    # Fase 4: generación de código
     try:
         return GeneradorWat().visit(arbol)
     except ErrorNoSoportado as e:

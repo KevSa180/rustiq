@@ -134,6 +134,13 @@ class GeneradorWat(RustiQVisitor):
             return self.globales[nombre], "global"
         return None, None
 
+    def variable_o_error(self, nombre, ctx):
+        # Respaldo mientras no exista verificador_tipos.py (que reportará esto antes).
+        simbolo, clase = self.buscar_variable(nombre)
+        if simbolo is None:
+            raise ErrorNoSoportado(ctx, f"La variable '{nombre}' no está declarada")
+        return simbolo, clase
+
     def descartar_si_hay_valor(self, tipo):
         if tipo_wasm(tipo) is not None:
             self.emitir("drop")
@@ -337,7 +344,7 @@ class GeneradorWat(RustiQVisitor):
     def visitAsignacion(self, ctx):
         lugar = ctx.lugar()
         op = ctx.opAsignacion().getText()
-        (wasm, tipo), clase = self.buscar_variable(lugar.ID(0).getText())
+        (wasm, tipo), clase = self.variable_o_error(lugar.ID(0).getText(), lugar)
         accesos = accesos_de_lugar(lugar)
 
         if not accesos:                              # x = valor;  x += valor;
@@ -555,7 +562,10 @@ class GeneradorWat(RustiQVisitor):
         if sufijos and isinstance(sufijos[0], P.SufijoLlamadaContext):
             if not isinstance(primario, P.PrimIdentContext):
                 raise ErrorNoSoportado(ctx, "Solo se puede llamar a una función por su nombre")
-            tipo = self.generar_llamada(primario.ID().getText(), sufijos[0])
+            nombre = primario.ID().getText()
+            if nombre not in self.funciones and nombre not in PREDEFINIDAS:
+                raise ErrorNoSoportado(primario, f"La función '{nombre}' no existe")
+            tipo = self.generar_llamada(nombre, sufijos[0])
             sufijos, es_lugar = sufijos[1:], False
         else:
             tipo = self.visit(primario)
@@ -668,7 +678,7 @@ class GeneradorWat(RustiQVisitor):
         return self.generar_bloque(ctx.bloque(), True)
 
     def visitPrimIdent(self, ctx):
-        (wasm, tipo), clase = self.buscar_variable(ctx.ID().getText())
+        (wasm, tipo), clase = self.variable_o_error(ctx.ID().getText(), ctx)
         self.emitir(f"{clase}.get {wasm}")
         return tipo
 

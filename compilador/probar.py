@@ -1,27 +1,20 @@
+"""
+Corre solo las fases de análisis (sin generar código) y muestra los errores.
+
+    python probar.py ejemplos/error1.rq
+"""
 import sys
-from antlr4 import InputStream, CommonTokenStream
-from generado.RustiQLexer import RustiQLexer
-from generado.RustiQParser import RustiQParser
-from errores import ListaErrores, ColectorErrores
+from errores import ListaErrores
+from correr import analizar
 
 with open(sys.argv[1], encoding="utf-8") as f:
     codigo = f.read()
 
 errores = ListaErrores()
-
-lexer = RustiQLexer(InputStream(codigo))
-lexer.removeErrorListeners()
-lexer.addErrorListener(ColectorErrores("léxico", errores))
-
-tokens = CommonTokenStream(lexer)
-parser = RustiQParser(tokens)
-parser.removeErrorListeners()
-parser.addErrorListener(ColectorErrores("sintáctico", errores))
-
-arbol = parser.programa()
+arbol, tabla = analizar(codigo, errores)
 
 if errores.hay_errores():
     for e in errores.ordenados():
         print(e)
-else:
-    print("Sin errores")
+    sys.exit(1)
+print("Sin errores")

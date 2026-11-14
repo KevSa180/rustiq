@@ -22,10 +22,12 @@ from ejecutor_wasm import wat_a_wasm, validar, ejecutar, ErrorWasm
 
 def analizar(codigo, errores):
     """
-    Corre todas las fases de análisis y devuelve (árbol, tabla).
-    Cada fase corre solo si la anterior no dejó errores; todas escriben en la
-    misma ListaErrores. Si hay errores, el árbol devuelto es None.
+    [DEFENSA] La cadena de análisis. Corre todas las fases y devuelve
+    (árbol, tabla). Cada fase se ejecuta solo si la anterior no dejó errores y
+    todas escriben en la misma ListaErrores: un programa con errores NUNCA
+    produce un .wasm. Si hay errores, el árbol devuelto es None.
     """
+    # Fase 1: léxico y sintaxis con ANTLR (los errores van a 'errores', no a la consola)
     lexer = RustiQLexer(InputStream(codigo))
     lexer.removeErrorListeners()
     lexer.addErrorListener(ColectorErrores("léxico", errores))
@@ -48,6 +50,8 @@ def compilar_a_wat(codigo, errores):
     arbol, tabla = analizar(codigo, errores)
     if arbol is None:
         return None
+    # Fases 2 y 3 (recolector, tipos, ownership) ya corrieron en analizar().
+    # Fase 4: generación de código
     try:
         return GeneradorWat(tabla).visit(arbol)
     except ErrorNoSoportado as e:

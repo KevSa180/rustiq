@@ -1,3 +1,14 @@
+"""
+EJECUTOR: texto WAT -> binario .wasm -> validación -> ejecución (con wasmtime).
+
+[DEFENSA] Los tres pasos que pide el enunciado:
+    1. wat_a_wasm  convierte el texto WAT al binario .wasm real
+    2. validar     revisa que el módulo sea correcto (tipos y pila); si el
+                   generador escribiera algo mal, se detecta aquí
+    3. ejecutar    corre main() en wasmtime, un runtime de Wasm fuera del navegador
+
+El navegador hace lo mismo en web/frontend/src/ejecutor.worker.js.
+"""
 import wasmtime
 
 
@@ -5,6 +16,8 @@ class ErrorWasm(Exception):
     """Error al convertir, validar o ejecutar un módulo Wasm."""
 
 
+# [DEFENSA] Un "trap" es un error que ocurre MIENTRAS el programa corre
+# (el módulo es válido, pero hace algo imposible). Se traduce al español.
 TRAPS = {
     "integer divide by zero": "División entera por cero",
     "out of bounds memory access": "Acceso fuera de la memoria",
@@ -38,6 +51,7 @@ def motor():
 
 
 def wat_a_wasm(texto_wat):
+    """Paso 1: texto WAT -> bytes .wasm (empiezan con \\0asm). Solo traduce, no revisa tipos."""
     try:
         return wasmtime.wat2wasm(texto_wat)
     except wasmtime.WasmtimeError as e:
@@ -45,6 +59,7 @@ def wat_a_wasm(texto_wat):
 
 
 def validar(bytes_wasm):
+    """Paso 2: valida el módulo (que cada instrucción tenga en la pila los valores que necesita)."""
     try:
         wasmtime.Module.validate(motor(), bytes_wasm)
     except wasmtime.WasmtimeError as e:
@@ -52,12 +67,18 @@ def validar(bytes_wasm):
 
 
 def formatear_f64(valor):
+    """4.0 se muestra como 4.0 (no 4); el navegador usa la misma regla."""
     if valor == int(valor):
         return f"{valor:.1f}"
     return repr(valor)
 
 
 def ejecutar(bytes_wasm):
+    """
+    Paso 3: instancia el módulo y llama a main. Devuelve la lista de líneas impresas.
+    [DEFENSA] linker.define_func es el "préstamo": cuando el módulo llama a
+    env.print_i32, wasmtime ejecuta la función de Python que se registra aquí.
+    """
     engine = motor()
     store = wasmtime.Store(engine)
     modulo = wasmtime.Module(engine, bytes_wasm)

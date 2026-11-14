@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:13 No se puede aplicar '-' a un valor de tipo bool
+fn main() {
+    let x = -true;
+}

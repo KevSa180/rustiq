@@ -1,0 +1,11 @@
+// Salida esperada:
+// texto
+// 1
+fn main() {
+    let x = 1;
+    {
+        let x = "texto";
+        print_str(&x);
+    }
+    print_i32(x);
+}

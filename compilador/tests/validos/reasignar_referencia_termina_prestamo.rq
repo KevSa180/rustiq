@@ -1,0 +1,11 @@
+// r = &y termina el préstamo de x: modificar x después es válido
+// Salida esperada:
+// 2
+fn main() {
+    let mut x = 1;
+    let y = 2;
+    let mut r = &x;
+    x = 5;
+    r = &y;
+    print_i32(*r);
+}

@@ -1,0 +1,7 @@
+// Error esperado: ownership 5:13 No se puede prestar 'n': ya está prestada como mutable en la línea 4
+fn main() {
+    let mut n = 1;
+    let a = &mut n;
+    let b = &n;
+    print_i32(*a);
+}

@@ -1,0 +1,5 @@
+// Error esperado: ownership 4:13 No se puede pedir '&mut n' porque 'n' no es mutable
+fn main() {
+    let n = 1;
+    let r = &mut n;
+}

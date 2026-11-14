@@ -1,0 +1,8 @@
+// Error esperado: semántico 4:5 no se cubre el patrón '_'
+fn main() {
+    let n = 3;
+    match n {
+        0 => print_i32(0),
+        1 => print_i32(1),
+    };
+}

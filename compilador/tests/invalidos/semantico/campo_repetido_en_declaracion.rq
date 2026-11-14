@@ -1,0 +1,8 @@
+// Error esperado: semántico 4:5 El campo 'x' está repetido en el struct 'Punto'
+struct Punto {
+    x: f64,
+    x: f64,
+}
+
+fn main() {
+}

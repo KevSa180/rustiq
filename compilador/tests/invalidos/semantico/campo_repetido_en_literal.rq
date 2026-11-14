@@ -1,0 +1,8 @@
+// Error esperado: semántico 7:29 El campo 'x' se inicializa dos veces
+struct Punto {
+    x: f64,
+}
+
+fn main() {
+    let p = Punto { x: 1.0, x: 2.0 };
+}

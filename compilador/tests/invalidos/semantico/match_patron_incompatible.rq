@@ -1,0 +1,13 @@
+// Error esperado: semántico 10:9 El patrón 'Estado::Pendiente' no corresponde al tipo i32
+enum Estado {
+    Pendiente,
+    Listo,
+}
+
+fn main() {
+    let n = 1;
+    match n {
+        Estado::Pendiente => {},
+        _ => {},
+    };
+}

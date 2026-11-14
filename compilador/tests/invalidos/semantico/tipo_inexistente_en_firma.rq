@@ -1,0 +1,6 @@
+// Error esperado: semántico 2:18 El tipo 'Punto' no existe
+fn mover(p: &mut Punto) {
+}
+
+fn main() {
+}

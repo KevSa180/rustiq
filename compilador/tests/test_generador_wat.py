@@ -104,12 +104,14 @@ class PruebasMemoria(unittest.TestCase):
 
 
 class PruebasNoSoportado(unittest.TestCase):
-    def test_no_soportado_se_reporta_con_linea_y_columna(self):
+    def test_llamada_a_expresion_se_reporta_con_linea_y_columna(self):
+        # Antes lo atrapaba el generador (fase "generación"); ahora lo detecta
+        # el verificador de tipos y nunca se llega a generar código.
         errores = ListaErrores()
         wat = compilar_a_wat("fn f() -> i32 { 1 }\nfn main() {\n    let x = (f)();\n}", errores)
         self.assertIsNone(wat)
         e = errores.ordenados()[0]
-        self.assertEqual((e.fase, e.linea, e.columna), ("generación", 3, 13))
+        self.assertEqual((e.fase, e.linea, e.columna), ("semántico", 3, 13))
 
     def test_error_sintactico_no_genera_wat(self):
         errores = ListaErrores()

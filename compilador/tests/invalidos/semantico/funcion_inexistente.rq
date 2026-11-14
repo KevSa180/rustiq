@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:5 La función 'saludar' no existe
+fn main() {
+    saludar(1);
+}

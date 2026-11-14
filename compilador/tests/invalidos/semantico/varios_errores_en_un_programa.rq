@@ -1,0 +1,9 @@
+// Error esperado: semántico 5:13 La variable 'y' no está declarada
+// Error esperado: semántico 6:18 se declaró como i32 pero se le asigna bool
+// Error esperado: semántico 7:8 La condición del if debe ser bool, no f64
+fn main() {
+    let x = y;
+    let z: i32 = true;
+    if 1.5 {
+    }
+}

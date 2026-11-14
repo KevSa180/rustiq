@@ -1,0 +1,10 @@
+// Salida esperada:
+// hola
+fn mostrar(r: &String) {
+    print_str(&*r);
+}
+
+fn main() {
+    let s = "hola";
+    mostrar(&s);
+}

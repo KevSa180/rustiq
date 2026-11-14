@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:15 El índice 3 está fuera del rango del array [i32; 3]
+fn main() {
+    let a = [1, 2, 3];
+    let x = a[3];
+}

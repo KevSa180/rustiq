@@ -1,0 +1,7 @@
+// Error esperado: ownership 5:13 ya está prestada como mutable en la línea 4
+fn main() {
+    let mut n = 1;
+    let a = &mut n;
+    let b = &mut n;
+    print_i32(*a);
+}

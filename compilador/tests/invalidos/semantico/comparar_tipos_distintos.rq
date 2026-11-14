@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:15 No se puede comparar i32 con bool
+fn main() {
+    let c = 1 == true;
+}

@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:18 División entera por cero
+fn main() {
+    let x = 10 / 0;
+}

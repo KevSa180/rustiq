@@ -1,0 +1,11 @@
+// El préstamo de r termina en su último uso, así que después se puede modificar n
+// Salida esperada:
+// 1
+// 2
+fn main() {
+    let mut n = 1;
+    let r = &n;
+    print_i32(*r);
+    n = 2;
+    print_i32(n);
+}

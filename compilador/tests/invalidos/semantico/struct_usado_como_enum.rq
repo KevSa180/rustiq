@@ -1,0 +1,8 @@
+// Error esperado: semántico 7:13 'Punto' es un struct, no un enum
+struct Punto {
+    x: f64,
+}
+
+fn main() {
+    let p = Punto::Origen;
+}

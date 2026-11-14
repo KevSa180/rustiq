@@ -1,0 +1,16 @@
+// Error esperado: ownership 13:11 La variable 'e' fue movida en la línea 10 (el patrón 's' toma un valor no copiable)
+enum Estado {
+    Error(String),
+    Listo,
+}
+
+fn main() {
+    let e = Estado::Error("falló");
+    match e {
+        Estado::Error(s) => print_str(&s),
+        Estado::Listo => {},
+    };
+    match e {
+        _ => {},
+    };
+}

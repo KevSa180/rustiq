@@ -1,0 +1,7 @@
+// Error esperado: semántico 5:9 La tupla tiene 2 elementos pero el patrón tiene 3
+fn main() {
+    let t = (1, 2);
+    match t {
+        (a, b, c) => {},
+    };
+}

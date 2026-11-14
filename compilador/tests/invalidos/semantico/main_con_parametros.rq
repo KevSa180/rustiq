@@ -1,0 +1,3 @@
+// Error esperado: semántico 2:4 La función 'main' no puede recibir parámetros
+fn main(n: i32) {
+}

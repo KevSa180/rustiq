@@ -1,0 +1,8 @@
+// Error esperado: ownership 4:5 devuelve una referencia a 'n', que deja de existir al terminar la función
+fn referencia() -> &i32 {
+    let n = 1;
+    &n
+}
+
+fn main() {
+}

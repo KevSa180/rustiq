@@ -1,0 +1,15 @@
+// Salida esperada:
+// 1
+// 2
+fn signo(c: bool) -> i32 {
+    if c {
+        return 1;
+    } else {
+        return 2;
+    }
+}
+
+fn main() {
+    print_i32(signo(true));
+    print_i32(signo(false));
+}

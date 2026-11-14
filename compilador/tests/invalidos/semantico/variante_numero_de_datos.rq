@@ -1,0 +1,9 @@
+// Error esperado: semántico 8:21 lleva 1 dato(s) pero recibe 2
+enum Estado {
+    Pendiente,
+    Completado(i32),
+}
+
+fn main() {
+    let e = Estado::Completado(1, 2);
+}

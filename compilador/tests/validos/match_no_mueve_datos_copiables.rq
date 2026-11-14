@@ -1,0 +1,24 @@
+// Un match que solo ata i32 no mueve el enum
+// Salida esperada:
+// 7
+// 7
+enum Estado {
+    Completado(i32),
+    Pendiente,
+}
+
+fn codigo(e: &Estado) -> i32 {
+    match e {
+        Estado::Completado(c) => c,
+        Estado::Pendiente => 0,
+    }
+}
+
+fn main() {
+    let e = Estado::Completado(7);
+    match e {
+        Estado::Completado(c) => print_i32(c),
+        Estado::Pendiente => print_i32(0),
+    };
+    print_i32(codigo(&e));
+}

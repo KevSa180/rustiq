@@ -1,0 +1,12 @@
+// Error esperado: ownership 11:16 La variable 's' fue movida en la línea 9
+fn consumir(s: String) {
+}
+
+fn main() {
+    let s = "hola";
+    let c = true;
+    if c {
+        consumir(s);
+    }
+    print_str(&s);
+}

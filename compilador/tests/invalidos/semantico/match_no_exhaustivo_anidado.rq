@@ -1,0 +1,18 @@
+// Error esperado: semántico 14:13 no se cubre el patrón 'Resultado::Ok(Forma::Circulo(_))'
+enum Forma {
+    Circulo(f64),
+    Rect(i32, i32),
+}
+
+enum Resultado {
+    Ok(Forma),
+    Falla,
+}
+
+fn main() {
+    let r = Resultado::Ok(Forma::Rect(3, 4));
+    let v = match r {
+        Resultado::Ok(Forma::Rect(a, b)) => a * b,
+        Resultado::Falla => -1,
+    };
+}

@@ -1,0 +1,21 @@
+// Pasar un &mut a otra función lo re-presta: se puede usar varias veces
+// Salida esperada:
+// 2
+struct Contador {
+    n: i32,
+}
+
+fn sumar(c: &mut Contador) {
+    c.n += 1;
+}
+
+fn dos_veces(c: &mut Contador) {
+    sumar(c);
+    sumar(c);
+}
+
+fn main() {
+    let mut c = Contador { n: 0 };
+    dos_veces(&mut c);
+    print_i32(c.n);
+}

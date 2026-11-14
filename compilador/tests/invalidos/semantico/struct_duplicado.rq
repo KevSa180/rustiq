@@ -1,0 +1,11 @@
+// Error esperado: semántico 6:8 El tipo 'Punto' ya fue declarado (línea 2)
+struct Punto {
+    x: f64,
+}
+
+struct Punto {
+    y: f64,
+}
+
+fn main() {
+}

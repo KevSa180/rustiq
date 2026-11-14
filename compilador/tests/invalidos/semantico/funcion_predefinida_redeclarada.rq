@@ -1,0 +1,6 @@
+// Error esperado: semántico 2:4 'print_i32' es una función predefinida
+fn print_i32(n: i32) {
+}
+
+fn main() {
+}

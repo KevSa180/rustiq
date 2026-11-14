@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:23 se declaró como [i32; 3] pero se le asigna [i32; 2]
+fn main() {
+    let a: [i32; 3] = [1, 2];
+}

@@ -12,11 +12,20 @@ from antlr4 import InputStream, CommonTokenStream
 from generado.RustiQLexer import RustiQLexer
 from generado.RustiQParser import RustiQParser
 from errores import ListaErrores, ColectorErrores
+from tabla_simbolos import TablaSimbolos
+from recolector import Recolector
+from verificador_tipos import VerificadorTipos
+from analizador_ownership import AnalizadorOwnership
 from generador_wat import GeneradorWat, ErrorNoSoportado
 from ejecutor_wasm import wat_a_wasm, validar, ejecutar, ErrorWasm
 
 
-def compilar_a_wat(codigo, errores):
+def analizar(codigo, errores):
+    """
+    Corre todas las fases de análisis y devuelve (árbol, tabla).
+    Cada fase corre solo si la anterior no dejó errores; todas escriben en la
+    misma ListaErrores. Si hay errores, el árbol devuelto es None.
+    """
     lexer = RustiQLexer(InputStream(codigo))
     lexer.removeErrorListeners()
     lexer.addErrorListener(ColectorErrores("léxico", errores))
@@ -24,11 +33,23 @@ def compilar_a_wat(codigo, errores):
     parser.removeErrorListeners()
     parser.addErrorListener(ColectorErrores("sintáctico", errores))
     arbol = parser.programa()
+    tabla = TablaSimbolos(errores)
+    for fase in (Recolector, VerificadorTipos, AnalizadorOwnership):
+        if errores.hay_errores():
+            return None, tabla
+        fase(tabla, errores).visit(arbol)
     if errores.hay_errores():
+        return None, tabla
+    return arbol, tabla
+
+
+def compilar_a_wat(codigo, errores):
+    """Texto del programa -> texto WAT, o None si hubo errores (quedan en `errores`)."""
+    arbol, tabla = analizar(codigo, errores)
+    if arbol is None:
         return None
-    # Aquí irán el recolector, el verificador de tipos y el de ownership.
     try:
-        return GeneradorWat().visit(arbol)
+        return GeneradorWat(tabla).visit(arbol)
     except ErrorNoSoportado as e:
         errores.agregar("generación", e.linea, e.columna, e.mensaje)
         return None

@@ -1,0 +1,6 @@
+// Error esperado: semántico 5:5 No se puede asignar a la constante 'MAXIMO'
+const MAXIMO: i32 = 10;
+
+fn main() {
+    MAXIMO = 20;
+}

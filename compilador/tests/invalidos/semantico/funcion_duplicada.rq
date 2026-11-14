@@ -1,0 +1,11 @@
+// Error esperado: semántico 6:4 La función 'doble' ya fue declarada (línea 2)
+fn doble(n: i32) -> i32 {
+    n * 2
+}
+
+fn doble(n: f64) -> f64 {
+    n * 2.0
+}
+
+fn main() {
+}

@@ -1,0 +1,9 @@
+// Error esperado: semántico 8:12 RustiQ no tiene métodos
+struct Punto {
+    x: f64,
+}
+
+fn main() {
+    let p = Punto { x: 1.0 };
+    p.mover();
+}

@@ -1,0 +1,7 @@
+// Error esperado: ownership 3:13 No se puede mover el valor de tipo String que está detrás de la referencia 'r'
+fn leer(r: &String) {
+    let s = *r;
+}
+
+fn main() {
+}

@@ -1,0 +1,11 @@
+// Error esperado: semántico 5:12 Las ramas del if tienen tipos distintos: i32 y f64
+fn elegir(c: bool) -> i32 {
+    if c {
+        1
+    } else {
+        2.5
+    }
+}
+
+fn main() {
+}

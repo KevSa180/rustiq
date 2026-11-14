@@ -1,0 +1,9 @@
+// Error esperado: semántico 8:13 Faltan los campos 'y' del struct 'Punto'
+struct Punto {
+    x: f64,
+    y: f64,
+}
+
+fn main() {
+    let p = Punto { x: 1.0 };
+}

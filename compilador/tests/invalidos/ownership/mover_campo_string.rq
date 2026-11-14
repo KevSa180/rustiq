@@ -1,0 +1,10 @@
+// Error esperado: ownership 9:16 fue movida en la línea 8 (se movió 'u.nombre')
+struct Usuario {
+    nombre: String,
+}
+
+fn main() {
+    let u = Usuario { nombre: "ana" };
+    let n = u.nombre;
+    print_str(&u.nombre);
+}

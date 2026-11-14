@@ -1,0 +1,20 @@
+// Salida esperada:
+// falló
+// falló
+enum Estado {
+    Error(String),
+    Listo,
+}
+
+fn mostrar(e: &Estado) {
+    match e {
+        Estado::Error(s) => print_str(&s),
+        Estado::Listo => print_str("listo"),
+    };
+}
+
+fn main() {
+    let e = Estado::Error("falló");
+    mostrar(&e);
+    mostrar(&e);
+}

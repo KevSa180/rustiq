@@ -1,0 +1,11 @@
+// Error esperado: ownership 7:9 No se puede modificar 'n' mientras está prestada con '&' en la línea 4
+fn main() {
+    let mut n = 1;
+    let r = &n;
+    let mut i = 0;
+    while i < 3 {
+        n += 1;
+        print_i32(*r);
+        i += 1;
+    }
+}

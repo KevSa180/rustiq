@@ -1,8 +1,7 @@
 from generado.RustiQVisitor import RustiQVisitor
 from generado.RustiQParser import RustiQParser as P
-from errores import ListaErrores
-from tabla_simbolos import TablaSimbolos
 from memoria import tipo_wasm, sin_referencia
+from recolector import convertir_tipo, PREDEFINIDAS
 import memoria as M
 import tipos as T
 
@@ -16,15 +15,6 @@ class ErrorNoSoportado(Exception):
         self.columna = ctx.start.column + 1
         self.mensaje = mensaje
 
-
-# Funciones que el entorno (Python o el navegador) le presta al módulo.
-PREDEFINIDAS = {
-    "print_i32": T.I32,
-    "print_f64": T.F64,
-    "print_bool": T.BOOL,
-    "print_char": T.CHAR,
-    "print_str": T.STRING,      # recibe el puntero al String
-}
 
 # (operador, tipo wasm) -> instrucción
 OPERADORES = {
@@ -42,8 +32,6 @@ OPERADORES = {
 }
 
 ESCAPES = {"n": "\n", "t": "\t", "r": "\r", "\\": "\\", "'": "'", '"': '"'}
-
-PRIMITIVOS = {"i32": T.I32, "f64": T.F64, "bool": T.BOOL, "char": T.CHAR}
 
 
 def decodificar_escapes(texto):
@@ -66,16 +54,17 @@ class GeneradorWat(RustiQVisitor):
     """
     Recorre el árbol de ANTLR y escribe el módulo WAT.
 
+    Recibe la tabla de símbolos que llenó el recolector (structs, enums y
+    firmas de funciones). Solo se llega aquí si las fases semánticas no
+    reportaron errores, así que el generador confía en los tipos y no revisa.
+
     Cada visit de una expresión EMITE sus instrucciones y DEVUELVE su tipo
     (de tipos.py). Así sabemos si usar i32.add o f64.add, o qué offset tiene
     un campo. La representación en memoria está explicada en memoria.py.
     """
 
-    def __init__(self):
-        self.tabla = TablaSimbolos(ListaErrores())   # structs y enums
-        self.nombres_struct = set()
-        self.nombres_enum = set()
-        self.funciones = {}       # nombre -> (tipos de parámetros, tipo de retorno)
+    def __init__(self, tabla):
+        self.tabla = tabla
         self.globales = {}        # const globales: nombre -> (nombre wasm, tipo)
         self.textos = {}          # literal de texto -> dirección en memoria
         self.datos = []           # segmentos (data ...)
@@ -147,25 +136,7 @@ class GeneradorWat(RustiQVisitor):
         return puntero
 
     def convertir_tipo(self, ctx):
-        """Provisional: cuando exista el recolector, se usa su convertir_tipo."""
-        if isinstance(ctx, P.TipoPrimContext):
-            return PRIMITIVOS[ctx.getText()]
-        if isinstance(ctx, P.TipoStringContext):
-            return T.STRING
-        if isinstance(ctx, P.TipoArrContext):
-            arr = ctx.tipoArray()
-            return T.TipoArray(self.convertir_tipo(arr.tipo()), int(arr.INT_LIT().getText()))
-        if isinstance(ctx, P.TipoTupContext):
-            return T.TipoTupla([self.convertir_tipo(t) for t in ctx.tipoTupla().tipo()])
-        if isinstance(ctx, P.TipoRefContext):
-            ref = ctx.tipoReferencia()
-            return T.TipoReferencia(self.convertir_tipo(ref.tipo()), ref.MUT() is not None)
-        nombre = ctx.getText()
-        if nombre in self.nombres_struct:
-            return T.TipoStruct(nombre)
-        if nombre in self.nombres_enum:
-            return T.TipoEnum(nombre)
-        raise ErrorNoSoportado(ctx, f"El tipo '{nombre}' no existe")
+        return convertir_tipo(ctx, self.tabla)
 
     # =====================================================
     #  Programa y funciones
@@ -176,23 +147,14 @@ class GeneradorWat(RustiQVisitor):
         de_tipo = lambda clase: [d for d in declaraciones if isinstance(d, clase)]
         funciones = de_tipo(P.DeclFuncionContext)
 
-        # 1) Structs y enums (provisional, hasta que exista recolector.py).
-        self.registrar_tipos(de_tipo(P.DeclStructContext), de_tipo(P.DeclEnumContext))
-
-        # 2) Firmas, para poder llamar funciones declaradas más abajo.
-        for f in funciones:
-            params = f.listaParametros().parametro() if f.listaParametros() else []
-            tipos_params = [self.convertir_tipo(p.tipo()) for p in params]
-            retorno = self.convertir_tipo(f.tipo()) if f.tipo() else T.UNIT
-            self.funciones[f.ID().getText()] = (tipos_params, retorno)
-
-        # 3) Constantes globales y funciones.
+        # Los structs, enums y firmas ya están en la tabla (los puso el
+        # recolector). Solo falta generar constantes globales y funciones.
         texto_constantes = self.generar_constantes(de_tipo(P.DeclConstContext))
         texto_funciones = [self.generar_funcion(f) for f in funciones]
 
         heap = (self.siguiente_dato + 7) // 8 * 8
         partes = ["(module"]
-        for nombre, tipo in PREDEFINIDAS.items():
+        for nombre, tipo in PREDEFINIDAS:
             partes.append(f'  (import "env" "{nombre}" (func ${nombre} (param {tipo_wasm(tipo)})))')
         partes.append('  (memory (export "memory") 1)')
         partes += self.datos
@@ -203,23 +165,10 @@ class GeneradorWat(RustiQVisitor):
             partes.append(F64_REM)
         partes += [texto for _, texto in self.copiadores.values()]
         partes += texto_funciones
-        if "main" in self.funciones:
+        if self.tabla.buscar_funcion("main") is not None:
             partes.append('  (export "main" (func $main))')
         partes.append(")")
         return "\n".join(partes)
-
-    def registrar_tipos(self, structs, enums):
-        self.nombres_struct = {s.ID().getText() for s in structs}
-        self.nombres_enum = {e.ID().getText() for e in enums}
-        for s in structs:
-            campos = [(c.ID().getText(), self.convertir_tipo(c.tipo()), 0, 0) for c in s.declCampo()]
-            self.tabla.declarar_struct(s.ID().getText(), campos, 0, 0)
-        for e in enums:
-            variantes = []
-            for v in e.variante():
-                tipos = [self.convertir_tipo(t) for t in v.listaTipos().tipo()] if v.listaTipos() else []
-                variantes.append((v.ID().getText(), tipos, 0, 0))
-            self.tabla.declarar_enum(e.ID().getText(), variantes, 0, 0)
 
     def generar_constantes(self, constantes):
         if not constantes:
@@ -238,12 +187,13 @@ class GeneradorWat(RustiQVisitor):
 
     def generar_funcion(self, ctx):
         nombre = ctx.ID().getText()
-        tipos_params, retorno = self.funciones[nombre]
+        simbolo = self.tabla.buscar_funcion(nombre)
+        retorno = simbolo.retorno
         self._nuevo_contexto_funcion(retorno)
 
         params = ctx.listaParametros().parametro() if ctx.listaParametros() else []
         firma = []
-        for p, tipo in zip(params, tipos_params):
+        for p, tipo in zip(params, simbolo.tipos_parametros()):
             wasm = self.nombre_wasm(p.ID().getText())
             self.ambitos[0][p.ID().getText()] = (wasm, tipo)
             firma.append(f"(param {wasm} {tipo_wasm(tipo)})")
@@ -576,9 +526,7 @@ class GeneradorWat(RustiQVisitor):
         for a in argumentos:
             self.visit(a)
         self.emitir(f"call ${nombre}")
-        if nombre in PREDEFINIDAS:
-            return T.UNIT
-        return self.funciones[nombre][1]
+        return self.tabla.buscar_funcion(nombre).retorno
 
     # ----- Campos e índices -----
 

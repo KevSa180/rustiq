@@ -1,0 +1,7 @@
+// Error esperado: semántico 3:5 no declara tipo de retorno pero su cuerpo produce un valor de tipo i32
+fn nada() {
+    5
+}
+
+fn main() {
+}

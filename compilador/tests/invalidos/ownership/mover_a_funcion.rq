@@ -1,0 +1,13 @@
+// Error esperado: ownership 12:15 La variable 'p' fue movida en la línea 11
+struct Punto {
+    x: f64,
+}
+
+fn consumir(p: Punto) {
+}
+
+fn main() {
+    let p = Punto { x: 1.0 };
+    consumir(p);
+    print_f64(p.x);
+}

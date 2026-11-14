@@ -1,0 +1,11 @@
+// Error esperado: ownership 7:5 No se puede modificar 'p.x' a través de 'p', que es una referencia inmutable
+struct Punto {
+    x: f64,
+}
+
+fn mover(p: &Punto) {
+    p.x = 2.0;
+}
+
+fn main() {
+}

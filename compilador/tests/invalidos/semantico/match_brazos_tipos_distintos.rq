@@ -1,0 +1,8 @@
+// Error esperado: semántico 6:14 Los brazos del match tienen tipos distintos: i32 y f64
+fn main() {
+    let n = 1;
+    let v = match n {
+        0 => 1,
+        _ => 2.5,
+    };
+}

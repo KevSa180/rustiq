@@ -1,0 +1,10 @@
+// Salida esperada:
+// 6
+fn incrementar(mut n: i32) -> i32 {
+    n += 5;
+    n
+}
+
+fn main() {
+    print_i32(incrementar(1));
+}

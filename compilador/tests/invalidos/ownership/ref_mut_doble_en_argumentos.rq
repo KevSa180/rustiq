@@ -1,0 +1,8 @@
+// Error esperado: ownership 7:17 No se puede prestar 'n' como mutable: ya está prestada como mutable en la línea 7
+fn par(a: &mut i32, b: &mut i32) {
+}
+
+fn main() {
+    let mut n = 1;
+    par(&mut n, &mut n);
+}

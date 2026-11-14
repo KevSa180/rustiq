@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:13 La expresión no produce ningún valor para guardar en 'x'
+fn main() {
+    let x = print_i32(1);
+}

@@ -1,0 +1,8 @@
+// Error esperado: semántico 7:19 El argumento 1 de 'doble' debe ser i32, no f64
+fn doble(n: i32) -> i32 {
+    n * 2
+}
+
+fn main() {
+    let x = doble(2.5);
+}

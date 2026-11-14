@@ -1,0 +1,12 @@
+// Salida esperada:
+// 1
+fn main() {
+    let n: i32;
+    let c = true;
+    if c {
+        n = 1;
+    } else {
+        n = 2;
+    }
+    print_i32(n);
+}

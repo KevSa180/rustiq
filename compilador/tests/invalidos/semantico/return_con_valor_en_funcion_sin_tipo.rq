@@ -1,0 +1,7 @@
+// Error esperado: semántico 3:12 no devuelve valor pero este 'return' lleva uno
+fn nada() {
+    return 1;
+}
+
+fn main() {
+}

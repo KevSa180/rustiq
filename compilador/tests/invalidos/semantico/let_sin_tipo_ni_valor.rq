@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:9 necesita un tipo o un valor inicial
+fn main() {
+    let x;
+}

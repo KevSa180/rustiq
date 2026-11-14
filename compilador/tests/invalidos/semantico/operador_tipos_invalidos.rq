@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:15 No se puede aplicar '+' a String y i32
+fn main() {
+    let s = "hola";
+    let y = s + 1;
+}

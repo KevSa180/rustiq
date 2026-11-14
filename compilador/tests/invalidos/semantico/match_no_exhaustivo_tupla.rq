@@ -1,0 +1,13 @@
+// Error esperado: semántico 9:5 no se cubre el patrón '(Moneda::Cruz, false)'
+enum Moneda {
+    Cara,
+    Cruz,
+}
+
+fn main() {
+    let t = (Moneda::Cara, true);
+    match t {
+        (Moneda::Cara, _) => print_i32(1),
+        (Moneda::Cruz, true) => print_i32(2),
+    };
+}

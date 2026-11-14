@@ -1,0 +1,14 @@
+// Mover dentro de un loop que siempre termina con break es válido
+// Salida esperada:
+// hola
+fn consumir(s: String) {
+    print_str(&s);
+}
+
+fn main() {
+    let s = "hola";
+    loop {
+        consumir(s);
+        break;
+    }
+}

@@ -1,0 +1,7 @@
+// Error esperado: semántico 2:17 El parámetro 'a' está repetido en la función 'suma'
+fn suma(a: i32, a: i32) -> i32 {
+    a + a
+}
+
+fn main() {
+}

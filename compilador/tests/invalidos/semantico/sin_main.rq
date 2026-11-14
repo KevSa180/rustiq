@@ -1,0 +1,3 @@
+// Error esperado: semántico 1:1 El programa no tiene función 'main'
+fn ayuda() {
+}

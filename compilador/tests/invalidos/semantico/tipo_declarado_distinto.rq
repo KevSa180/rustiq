@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:18 se declaró como i32 pero se le asigna f64
+fn main() {
+    let x: i32 = 2.5;
+}

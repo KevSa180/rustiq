@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:5 'break' fuera de un bucle
+fn main() {
+    let n = 1;
+    break;
+}

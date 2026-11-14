@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:9 La variable 'x' ya fue declarada en este ámbito (línea 3)
+fn main() {
+    let x = 1;
+    let x = 2;
+}

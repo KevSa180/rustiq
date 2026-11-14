@@ -1,0 +1,15 @@
+// Salida esperada:
+// 3.0
+struct Punto {
+    x: f64,
+}
+
+struct Caja {
+    esquina: Punto,
+}
+
+fn main() {
+    let mut c = Caja { esquina: Punto { x: 1.0 } };
+    c.esquina.x += 2.0;
+    print_f64(c.esquina.x);
+}

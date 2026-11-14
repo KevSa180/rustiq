@@ -1,0 +1,8 @@
+// Error esperado: semántico 7:13 espera 1 argumento(s) pero recibe 2
+fn doble(n: i32) -> i32 {
+    n * 2
+}
+
+fn main() {
+    let x = doble(1, 2);
+}

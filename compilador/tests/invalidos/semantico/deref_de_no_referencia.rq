@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:13 No se puede desreferenciar un valor de tipo i32
+fn main() {
+    let n = 1;
+    let m = *n;
+}

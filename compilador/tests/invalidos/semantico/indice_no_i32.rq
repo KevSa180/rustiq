@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:15 El índice de un array debe ser i32, no f64
+fn main() {
+    let a = [1, 2, 3];
+    let x = a[1.0];
+}

@@ -1,0 +1,13 @@
+// Error esperado: semántico 10:9 La variante 'Estado::Completado' lleva 1 dato(s) pero el patrón tiene 0
+enum Estado {
+    Pendiente,
+    Completado(i32),
+}
+
+fn main() {
+    let e = Estado::Pendiente;
+    match e {
+        Estado::Completado => {},
+        Estado::Pendiente => {},
+    };
+}

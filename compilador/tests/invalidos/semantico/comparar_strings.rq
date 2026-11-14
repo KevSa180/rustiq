@@ -1,0 +1,6 @@
+// Error esperado: semántico 5:15 No se puede aplicar '==' a valores de tipo String
+fn main() {
+    let a = "x";
+    let b = "y";
+    let c = a == b;
+}

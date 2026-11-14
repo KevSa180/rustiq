@@ -1,0 +1,8 @@
+// Error esperado: semántico 5:9 RustiQ no soporta patrones de texto
+fn main() {
+    let s = "a";
+    match s {
+        "a" => {},
+        _ => {},
+    };
+}

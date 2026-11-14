@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:15 Un valor de tipo i32 no tiene campos (se pidió 'x')
+fn main() {
+    let n = 1;
+    let x = n.x;
+}

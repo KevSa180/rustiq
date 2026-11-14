@@ -1,0 +1,5 @@
+// Error esperado: semántico 3:11 La condición del while debe ser bool, no f64
+fn main() {
+    while 2.5 {
+    }
+}

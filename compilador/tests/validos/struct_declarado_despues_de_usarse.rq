@@ -1,0 +1,19 @@
+// Un struct puede usar otro declarado más abajo, y una función llamar a otra de más abajo
+// Salida esperada:
+// 2.0
+struct Caja {
+    esquina: Punto,
+}
+
+struct Punto {
+    x: f64,
+}
+
+fn main() {
+    let c = Caja { esquina: Punto { x: 1.0 } };
+    print_f64(doble(c.esquina.x));
+}
+
+fn doble(v: f64) -> f64 {
+    v * 2.0
+}

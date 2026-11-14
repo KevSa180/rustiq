@@ -1,0 +1,8 @@
+// let sin valor y una sola asignación después: válido aunque no sea mut
+// Salida esperada:
+// 5
+fn main() {
+    let n: i32;
+    n = 5;
+    print_i32(n);
+}

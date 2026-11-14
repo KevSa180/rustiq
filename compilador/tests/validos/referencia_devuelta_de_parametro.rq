@@ -1,0 +1,11 @@
+// Salida esperada:
+// uno
+fn primero(a: &String, b: &String) -> &String {
+    a
+}
+
+fn main() {
+    let s = "uno";
+    let t = "dos";
+    print_str(primero(&s, &t));
+}

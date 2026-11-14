@@ -1,0 +1,9 @@
+// Error esperado: semántico 8:21 El enum 'Estado' no tiene la variante 'Listo'
+enum Estado {
+    Pendiente,
+    Completado(i32),
+}
+
+fn main() {
+    let e = Estado::Listo;
+}

@@ -1,0 +1,7 @@
+// Error esperado: semántico 2:4 debe devolver i32 pero no todos los caminos devuelven un valor
+fn doble(n: i32) -> i32 {
+    let d = n * 2;
+}
+
+fn main() {
+}

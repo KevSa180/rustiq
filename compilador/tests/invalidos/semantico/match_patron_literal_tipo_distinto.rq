@@ -1,0 +1,8 @@
+// Error esperado: semántico 5:9 El patrón '2.5' es de tipo f64 pero el valor del match es de tipo i32
+fn main() {
+    let n = 1;
+    match n {
+        2.5 => {},
+        _ => {},
+    };
+}

@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:14 No se puede indexar un valor de tipo i32
+fn main() {
+    let n = 5;
+    let x = n[0];
+}

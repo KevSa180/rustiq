@@ -1,0 +1,17 @@
+// Salida esperada:
+// 3
+struct Contador {
+    n: i32,
+}
+
+fn sumar(c: &mut Contador) {
+    c.n += 1;
+}
+
+fn main() {
+    let mut c = Contador { n: 1 };
+    let r = &mut c;
+    sumar(r);
+    sumar(r);
+    print_i32(c.n);
+}

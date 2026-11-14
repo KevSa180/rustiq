@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:13 La variable 'x' no está declarada
+fn main() {
+    let y = x + 1;
+}

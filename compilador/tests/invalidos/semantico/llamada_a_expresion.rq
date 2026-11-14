@@ -1,0 +1,8 @@
+// Error esperado: semántico 7:13 Solo se puede llamar a una función por su nombre
+fn uno() -> i32 {
+    1
+}
+
+fn main() {
+    let x = (uno)();
+}

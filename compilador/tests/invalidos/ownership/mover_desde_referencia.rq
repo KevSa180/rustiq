@@ -1,0 +1,11 @@
+// Error esperado: ownership 7:13 No se puede mover 'u.nombre' porque está detrás de la referencia 'u'
+struct Usuario {
+    nombre: String,
+}
+
+fn leer(u: &Usuario) {
+    let n = u.nombre;
+}
+
+fn main() {
+}

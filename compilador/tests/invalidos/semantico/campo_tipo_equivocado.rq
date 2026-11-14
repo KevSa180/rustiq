@@ -1,0 +1,8 @@
+// Error esperado: semántico 7:24 El campo 'x' de 'Punto' es de tipo f64, no i32
+struct Punto {
+    x: f64,
+}
+
+fn main() {
+    let p = Punto { x: 1 };
+}

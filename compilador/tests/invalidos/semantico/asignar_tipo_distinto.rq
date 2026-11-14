@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:9 No se puede asignar f64 a 'n', que es de tipo i32
+fn main() {
+    let mut n = 1;
+    n = 2.5;
+}

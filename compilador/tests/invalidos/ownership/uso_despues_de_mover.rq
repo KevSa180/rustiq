@@ -1,0 +1,6 @@
+// Error esperado: ownership 5:16 La variable 's' fue movida en la línea 4
+fn main() {
+    let s = "hola";
+    let t = s;
+    print_str(&s);
+}

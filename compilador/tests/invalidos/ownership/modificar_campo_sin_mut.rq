@@ -1,0 +1,9 @@
+// Error esperado: ownership 8:5 No se puede modificar 'p.x' porque 'p' no es mutable
+struct Punto {
+    x: f64,
+}
+
+fn main() {
+    let p = Punto { x: 1.0 };
+    p.x = 2.0;
+}

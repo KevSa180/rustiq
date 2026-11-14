@@ -1,0 +1,7 @@
+// Error esperado: ownership 3:12 devuelve una referencia a 'n'
+fn referencia(n: i32) -> &i32 {
+    return &n;
+}
+
+fn main() {
+}

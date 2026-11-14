@@ -1,0 +1,12 @@
+// Error esperado: ownership 8:5 La función 'mayor' devuelve una referencia a 's'
+fn mismo(a: &String) -> &String {
+    a
+}
+
+fn mayor() -> &String {
+    let s = "hola";
+    mismo(&s)
+}
+
+fn main() {
+}

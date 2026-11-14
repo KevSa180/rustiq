@@ -1,0 +1,5 @@
+// Error esperado: ownership 4:5 No se puede asignar a 'n' porque no es mutable
+fn main() {
+    let n = 1;
+    n += 2;
+}

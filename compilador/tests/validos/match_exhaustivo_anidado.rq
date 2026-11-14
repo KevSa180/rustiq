@@ -1,0 +1,22 @@
+// Salida esperada:
+// 12
+enum Forma {
+    Circulo(f64),
+    Rect(i32, i32),
+    Nada,
+}
+
+enum Resultado {
+    Ok(Forma),
+    Falla,
+}
+
+fn main() {
+    let r = Resultado::Ok(Forma::Rect(3, 4));
+    let v = match r {
+        Resultado::Ok(Forma::Rect(a, b)) => a * b,
+        Resultado::Ok(_) => 0,
+        Resultado::Falla => -1,
+    };
+    print_i32(v);
+}

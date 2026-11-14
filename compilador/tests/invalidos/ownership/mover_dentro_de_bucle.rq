@@ -1,0 +1,12 @@
+// Error esperado: ownership 9:18 La variable 's' se mueve dentro del bucle
+fn consumir(s: String) {
+}
+
+fn main() {
+    let s = "hola";
+    let mut i = 0;
+    while i < 3 {
+        consumir(s);
+        i += 1;
+    }
+}

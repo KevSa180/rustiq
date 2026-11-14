@@ -1,0 +1,7 @@
+// Error esperado: ownership 5:13 No se puede usar 'n' mientras está prestada como mutable en la línea 4
+fn main() {
+    let mut n = 1;
+    let r = &mut n;
+    let m = n;
+    print_i32(*r);
+}

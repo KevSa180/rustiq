@@ -1,0 +1,9 @@
+// Error esperado: ownership 6:13 'n' no vive lo suficiente
+fn main() {
+    let r: &i32;
+    {
+        let n = 1;
+        r = &n;
+    }
+    print_i32(*r);
+}

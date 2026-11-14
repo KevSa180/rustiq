@@ -1,0 +1,9 @@
+// Error esperado: ownership 8:15 La variable 'n' no ha sido inicializada
+fn main() {
+    let n: i32;
+    let c = true;
+    if c {
+        n = 1;
+    }
+    print_i32(n);
+}

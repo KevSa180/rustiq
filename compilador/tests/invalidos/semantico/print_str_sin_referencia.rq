@@ -1,0 +1,5 @@
+// Error esperado: semántico 4:15 El argumento 1 de 'print_str' debe ser &String, no String
+fn main() {
+    let s = "hola";
+    print_str(s);
+}

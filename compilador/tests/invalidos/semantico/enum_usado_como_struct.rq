@@ -1,0 +1,9 @@
+// Error esperado: semántico 8:13 'Estado' es un enum, no un struct
+enum Estado {
+    Pendiente,
+    Listo,
+}
+
+fn main() {
+    let e = Estado { x: 1 };
+}

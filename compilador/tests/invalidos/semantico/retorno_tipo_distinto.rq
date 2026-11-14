@@ -1,0 +1,7 @@
+// Error esperado: semántico 3:5 devuelve i32 pero su cuerpo produce f64
+fn mitad() -> i32 {
+    2.5
+}
+
+fn main() {
+}

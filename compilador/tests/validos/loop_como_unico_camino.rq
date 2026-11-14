@@ -1,0 +1,15 @@
+// Salida esperada:
+// 3
+fn buscar() -> i32 {
+    let mut i = 0;
+    loop {
+        i += 1;
+        if i == 3 {
+            return i;
+        }
+    }
+}
+
+fn main() {
+    print_i32(buscar());
+}

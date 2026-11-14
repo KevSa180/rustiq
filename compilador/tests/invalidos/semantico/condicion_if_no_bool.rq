@@ -1,0 +1,6 @@
+// Error esperado: semántico 4:8 La condición del if debe ser bool, no i32
+fn main() {
+    let n = 1;
+    if n {
+    }
+}

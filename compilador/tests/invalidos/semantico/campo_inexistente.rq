@@ -1,0 +1,10 @@
+// Error esperado: semántico 9:15 El struct 'Punto' no tiene el campo 'z'
+struct Punto {
+    x: f64,
+    y: f64,
+}
+
+fn main() {
+    let p = Punto { x: 1.0, y: 2.0 };
+    let z = p.z;
+}

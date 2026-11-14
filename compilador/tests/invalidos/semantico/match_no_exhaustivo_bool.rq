@@ -1,0 +1,7 @@
+// Error esperado: semántico 4:5 no se cubre el patrón 'false'
+fn main() {
+    let b = true;
+    match b {
+        true => print_i32(1),
+    };
+}

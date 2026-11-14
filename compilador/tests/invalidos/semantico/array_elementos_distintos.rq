@@ -1,0 +1,4 @@
+// Error esperado: semántico 3:17 Todos los elementos del array deben ser del mismo tipo
+fn main() {
+    let a = [1, 2.5, 3];
+}

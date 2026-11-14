@@ -1,0 +1,7 @@
+// Error esperado: semántico 3:5 debe devolver i32 pero este 'return' no lleva valor
+fn uno() -> i32 {
+    return;
+}
+
+fn main() {
+}

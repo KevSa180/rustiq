@@ -20,6 +20,23 @@ def leer_string(caller, puntero):
     return memoria.read(caller, puntero + 4, puntero + 4 + largo).decode("utf-8")
 
 
+def motor():
+    """
+    Motor de wasmtime. Se usa el intérprete Pulley en vez del compilador JIT
+    nativo: el Python de Apple (Xcode CLT) no tiene permiso de ejecutar código
+    generado en tiempo de ejecución y macOS mata el proceso (SIGKILL) al correr
+    Wasm compilado con Cranelift. Pulley funciona en cualquier plataforma y la
+    velocidad sobra para programas de prueba. Si la versión de wasmtime no lo
+    trae, se usa el motor por defecto.
+    """
+    config = wasmtime.Config()
+    try:
+        config.target = "pulley64"
+    except wasmtime.WasmtimeError:
+        config = wasmtime.Config()
+    return wasmtime.Engine(config)
+
+
 def wat_a_wasm(texto_wat):
     try:
         return wasmtime.wat2wasm(texto_wat)
@@ -29,7 +46,7 @@ def wat_a_wasm(texto_wat):
 
 def validar(bytes_wasm):
     try:
-        wasmtime.Module.validate(wasmtime.Engine(), bytes_wasm)
+        wasmtime.Module.validate(motor(), bytes_wasm)
     except wasmtime.WasmtimeError as e:
         raise ErrorWasm(f"El módulo .wasm no es válido: {e}")
 
@@ -41,7 +58,7 @@ def formatear_f64(valor):
 
 
 def ejecutar(bytes_wasm):
-    engine = wasmtime.Engine()
+    engine = motor()
     store = wasmtime.Store(engine)
     modulo = wasmtime.Module(engine, bytes_wasm)
     linker = wasmtime.Linker(engine)

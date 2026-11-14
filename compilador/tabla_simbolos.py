@@ -22,12 +22,13 @@ class SimboloVariable:
 class SimboloFuncion:
     """Una función: sus parámetros (SimboloVariable) y su tipo de retorno."""
 
-    def __init__(self, nombre, parametros, retorno, linea, columna):
+    def __init__(self, nombre, parametros, retorno, linea, columna, predefinida=False):
         self.nombre = nombre
         self.parametros = parametros
         self.retorno = retorno
         self.linea = linea
         self.columna = columna
+        self.predefinida = predefinida   # print_i32, print_str... (las presta el entorno)
 
     def tipos_parametros(self):
         return [p.tipo for p in self.parametros]
@@ -150,9 +151,14 @@ class TablaSimbolos:
 
         previa = self.funciones.get(simbolo.nombre)
         if previa is not None:
-            self._error(simbolo.linea, simbolo.columna,
-                        f"La función '{simbolo.nombre}' ya fue declarada "
-                        f"(línea {previa.linea})")
+            if previa.predefinida:
+                self._error(simbolo.linea, simbolo.columna,
+                            f"'{simbolo.nombre}' es una función predefinida y no se puede "
+                            f"volver a declarar")
+            else:
+                self._error(simbolo.linea, simbolo.columna,
+                            f"La función '{simbolo.nombre}' ya fue declarada "
+                            f"(línea {previa.linea})")
             return False
         self.funciones[simbolo.nombre] = simbolo
         return True
@@ -186,14 +192,22 @@ class TablaSimbolos:
         if self._tipo_ya_existe(nombre, linea, columna):
             return None
         simbolo = SimboloStruct(nombre, linea, columna)
+        self.structs[nombre] = simbolo
+        self.completar_struct(simbolo, campos)
+        return simbolo
+
+    def completar_struct(self, simbolo, campos):
+        """
+        Agrega los campos a un struct ya declarado. El recolector declara primero
+        todos los nombres (con campos vacíos) y los completa después, para que un
+        struct pueda usar otro declarado más abajo en el archivo.
+        """
         for c_nombre, c_tipo, c_linea, c_columna in campos:
             if c_nombre in simbolo.campos:
                 self._error(c_linea, c_columna,
-                            f"El campo '{c_nombre}' está repetido en el struct '{nombre}'")
+                            f"El campo '{c_nombre}' está repetido en el struct '{simbolo.nombre}'")
                 continue
             simbolo.campos[c_nombre] = c_tipo
-        self.structs[nombre] = simbolo
-        return simbolo
 
     def declarar_enum(self, nombre, variantes, linea, columna):
         """
@@ -204,14 +218,18 @@ class TablaSimbolos:
         if self._tipo_ya_existe(nombre, linea, columna):
             return None
         simbolo = SimboloEnum(nombre, linea, columna)
+        self.enums[nombre] = simbolo
+        self.completar_enum(simbolo, variantes)
+        return simbolo
+
+    def completar_enum(self, simbolo, variantes):
+        """Agrega las variantes a un enum ya declarado (ver completar_struct)."""
         for v_nombre, v_tipos, v_linea, v_columna in variantes:
             if v_nombre in simbolo.variantes:
                 self._error(v_linea, v_columna,
-                            f"La variante '{v_nombre}' está repetida en el enum '{nombre}'")
+                            f"La variante '{v_nombre}' está repetida en el enum '{simbolo.nombre}'")
                 continue
             simbolo.variantes[v_nombre] = list(v_tipos)
-        self.enums[nombre] = simbolo
-        return simbolo
 
     def buscar_struct(self, nombre):
         return self.structs.get(nombre)

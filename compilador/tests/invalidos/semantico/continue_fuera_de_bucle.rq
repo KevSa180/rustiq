@@ -1,0 +1,7 @@
+// Error esperado: semántico 5:9 'continue' fuera de un bucle
+fn main() {
+    let c = true;
+    if c {
+        continue;
+    }
+}
